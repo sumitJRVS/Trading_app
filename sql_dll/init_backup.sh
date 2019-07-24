@@ -1,4 +1,13 @@
 #!/bin/bash
+set -e
+cd "$(dirname "$0")"
+
+ls lib/trading-1.0-SNAPSHOT.jar
+
+if [ "$#" -ne 5 ]; then
+    echo "Illegal number of parameters"
+    exit 1
+fi
 
 export SPRING_PROFILES_ACTIVE=$1
 export PSQL_HOST=$2
@@ -18,10 +27,11 @@ docker volume ls | grep "pgdata" || docker volume create pgdata || sleep 1
 docker ps | grep jrvs-psql && docker stop $(docker ps | grep jrvs-psql | awk '{print $1}')
 
 #start docker
+docker run --rm --name jrvs-psql -e POSTGRES_PASSWORD=$PSQL_PASSWORD -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 $PSQL_USER
+sleep 5
 
-
-psql -h localhost -U postgres -f ./sql_ddl/init_db.sql
-psql -h localhost -U postgres -d jrvstrading -f ./sql_ddl/schema.sql
+psql -h $PSQL_HOST -U $PSQL_USER -f ./sql_ddl/init_db.sql
+psql -h $PSQL_HOST -U $PSQL_USER -d jrvstrading -f ./sql_ddl/schema.sql
 
 
 

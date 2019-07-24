@@ -1,4 +1,4 @@
-package ca.jrvs.apps.trading.model.domainDto;
+package ca.jrvs.apps.trading.model.domain;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;

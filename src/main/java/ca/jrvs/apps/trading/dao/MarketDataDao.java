@@ -1,32 +1,29 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.domainDto.IexQuote;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import ca.jrvs.apps.trading.model.dto.IexQuote;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-
 import org.apache.http.util.EntityUtils;
+
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-
-import java.lang.reflect.Array;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MarketDataDao {
 
-    // final static variables defined;
-    // URL base
+    // final static variables defined;    // URL base
+    private Logger logger = LoggerFactory.getLogger(MarketDataDao.class);
     private static final String TRADETOKEN = System.getenv("tradetoken");
     private static String URL_ROOT = ("https://cloud.iexapis.com/stable/stock/market/batch?symbols=%s&types=quote&token=" + TRADETOKEN);
 
@@ -37,7 +34,13 @@ public class MarketDataDao {
         this.httpClientConnectionManager = htCliConMgr;
     }
 
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
+        MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
+        List<String> a = new ArrayList<>();
 
+        objectMktDAO.findIexQuoteByTicker(a);
+    }
 
     ///this is just a helper function=client connection manager helping to make stable connection and limit 50 connection ON all time
     public HttpClientConnectionManager httpClientConnectionManager() {
@@ -47,6 +50,7 @@ public class MarketDataDao {
         return cm;
     }
 
+    //HTtp client borrowing 1 connection from connection manager
     public CloseableHttpClient httpClient() {
         CloseableHttpClient httpcli = HttpClients.custom().setConnectionManager(httpClientConnectionManager()).build();
         return httpcli;
@@ -62,60 +66,53 @@ public class MarketDataDao {
 
     public void findIexQuoteByTicker(List<String> tickerToQuote) throws IOException {
 
-        List<String> abccc = new ArrayList<>();
-        abccc.add("aapl");
+        List<String> iexquotesinList = new ArrayList<>();
+        iexquotesinList.add("aapl");
 
-        String tick = String.join(",", abccc);
-        String url = String.format(URL_ROOT, tick);
+        String tickaddedTOlistofQuotes = String.join(",", iexquotesinList);
+        String url = String.format(URL_ROOT, tickaddedTOlistofQuotes);
 
         CloseableHttpResponse res = responseBack(url);
-        String qutStr = EntityUtils.toString(res.getEntity());
-
-        System.out.println(qutStr);
+        String iexQtStr = EntityUtils.toString(res.getEntity());
 
         // move string response of quote(s) to JSONobject while checking the conditions
-        JSONObject iexQuoteJson = new JSONObject(qutStr);
-        if (iexQuoteJson.length() == 0) {
+        JSONObject iexQtJson = new JSONObject(iexQtStr);
+
+
+        logger.info("tickaddedTolistofQuotes%%", tickaddedTOlistofQuotes);
+        logger.debug("url%%" + url);
+        logger.debug("res%%" + res);
+        logger.debug("iexQtStr" + iexQtStr);
+        logger.debug("iexQtStr%%" + iexQtStr);
+
+
+
+        if (iexQtJson.length() == 0) {
             System.out.println("not found");
         }
-        if (iexQuoteJson.length() != tickerToQuote.size()) {
-            System.out.println("invalid ticker Symbol");
-        }
 
-        //start Unmarshall from Edward video
+        //start Unmarshall Json object from output var=iexQtJson
+        // move string response of quote(s) to JSONobject while checking the conditions
+
         List<IexQuote> iexQuoteList = new ArrayList<>();
-        iexQuoteJson.keys().forEachRemaining((ticker -> {
-            String qtstr = ((JSONObject) iexQuoteJson.get(tick)).get("quote").toString();
-            IexQuote iexQuote = toObjectFromJson(qtstr, IexQuote.class);
+        iexQtJson.keys().forEachRemaining(ticker -> {
+            String qtstr = ((JSONObject) iexQtJson.get(ticker)).get("quote").toString();
+            IexQuote iexQuote = null;
+            try {
+                iexQuote = toObjectFromJson(qtstr, IexQuote.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             iexQuoteList.add(iexQuote);
-        }));
-
+            });
+        System.out.println("MktDAO=" + iexQuoteList);
     }
 
-    //copied from twitter
-    public IexQuote toObjectFromJson(String json, Class clazz) {
-        ObjectMapper objmapToOBJ = new ObjectMapper(); // created a new object name= objmap
-        try {
-            return (IexQuote) objmapToOBJ.readValue(json, clazz);  // T is imp otherwise class is object and string all mixed up
-
-        } catch (JsonProcessingException err404) {
-            err404.printStackTrace();
-            throw new RuntimeException(err404);
-        } catch (IOException err404) {
-            err404.printStackTrace();
-            throw new RuntimeException(err404);
-        }
+    public <T> T toObjectFromJson(String json, Class clazz) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return (T) mapper.readValue(json, clazz);
     }
-
-
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
-        MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
-        List<String> a = new ArrayList<>();
-
-        objectMktDAO.findIexQuoteByTicker(a);
-    }
-
 
 
 }
