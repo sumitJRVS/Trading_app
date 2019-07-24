@@ -1,7 +1,10 @@
 package ca.jrvs.apps.trading.util;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
@@ -14,6 +17,7 @@ public class AppConfig {
     private static final String DB_USER ="postgres";
     private static final String DB_PASS ="password";
 
+    @Bean
     public DataSource dataSource (){
         logging.info("Creating ApacheData Source connection");
         BasicDataSource datasource = new BasicDataSource();
@@ -24,6 +28,15 @@ public class AppConfig {
 
         return datasource;
 
+    }
+
+    ///this is just a helper function=client connection manager helping to make stable connection and limit 50 connection ON all time
+    @Bean
+    public HttpClientConnectionManager httpClientConnectionManager() {
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+        cm.setMaxTotal(50);
+        cm.setDefaultMaxPerRoute(50);
+        return cm;
     }
 
 

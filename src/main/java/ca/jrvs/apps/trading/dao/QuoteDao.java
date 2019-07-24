@@ -40,7 +40,7 @@ public class QuoteDao implements CrudRepo<Quote, ID>{
     @Override
     public Quote get(Quote thingsFromQuote) {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(thingsFromQuote);
-        Number assignedNo = this.simpleJDBCins.executeAndReturnKey(sqlParameterSource);
+        //Number assignedNo = this.simpleJDBCins.executeAndReturnKey(sqlParameterSource); // this  will be used for making other funcn
         return thingsFromQuote;
     }
 

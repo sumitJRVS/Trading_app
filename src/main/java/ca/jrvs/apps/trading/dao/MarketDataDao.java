@@ -1,6 +1,7 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
+import ca.jrvs.apps.trading.modelRepo.dto.Quote;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -14,12 +15,15 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class MarketDataDao {
 
     // final static variables defined;    // URL base
@@ -30,10 +34,12 @@ public class MarketDataDao {
     private HttpClientConnectionManager httpClientConnectionManager;
 
     // constructure
+    @Autowired
     public MarketDataDao(HttpClientConnectionManager htCliConMgr) {
         this.httpClientConnectionManager = htCliConMgr;
     }
 
+    /*
     public static void main(String[] args) throws IOException, URISyntaxException {
         HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
         MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
@@ -41,18 +47,12 @@ public class MarketDataDao {
 
         objectMktDAO.findIexQuoteByTicker(a);
     }
+*/
 
-    ///this is just a helper function=client connection manager helping to make stable connection and limit 50 connection ON all time
-    public HttpClientConnectionManager httpClientConnectionManager() {
-        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-        cm.setMaxTotal(50);
-        cm.setDefaultMaxPerRoute(50);
-        return cm;
-    }
 
     //HTtp client borrowing 1 connection from connection manager
     public CloseableHttpClient httpClient() {
-        CloseableHttpClient httpcli = HttpClients.custom().setConnectionManager(httpClientConnectionManager()).build();
+        CloseableHttpClient httpcli = HttpClients.custom().setConnectionManager(httpClientConnectionManager).build();
         return httpcli;
     }
 
@@ -64,12 +64,12 @@ public class MarketDataDao {
 
     }
 
-    public void findIexQuoteByTicker(List<String> tickerToQuote) throws IOException {
+    public List<IexQuote> findIexQuoteByTicker(List<String> tickerToQuote) throws IOException {
 
-        List<String> iexquotesinList = new ArrayList<>();
-        iexquotesinList.add("aapl");
+       // List<String> iexquotesinList = new ArrayList<>();
+       // iexquotesinList.add(tickerToQuote);
 
-        String tickaddedTOlistofQuotes = String.join(",", iexquotesinList);
+        String tickaddedTOlistofQuotes = String.join(",", tickerToQuote);
         String url = String.format(URL_ROOT, tickaddedTOlistofQuotes);
 
         CloseableHttpResponse res = responseBack(url);
@@ -78,14 +78,14 @@ public class MarketDataDao {
         // move string response of quote(s) to JSONobject while checking the conditions
         JSONObject iexQtJson = new JSONObject(iexQtStr);
 
-
+        /**
         logger.info("tickaddedTolistofQuotes%%", tickaddedTOlistofQuotes);
         logger.debug("url%%" + url);
         logger.debug("res%%" + res);
         logger.debug("iexQtStr" + iexQtStr);
         logger.debug("iexQtStr%%" + iexQtStr);
 
-
+*/
 
         if (iexQtJson.length() == 0) {
             System.out.println("not found");
@@ -106,6 +106,7 @@ public class MarketDataDao {
             iexQuoteList.add(iexQuote);
             });
         System.out.println("MktDAO=" + iexQuoteList);
+        return iexQuoteList;
     }
 
     public <T> T toObjectFromJson(String json, Class clazz) throws IOException {
@@ -116,3 +117,7 @@ public class MarketDataDao {
 
 
 }
+
+
+
+//add 1 function
