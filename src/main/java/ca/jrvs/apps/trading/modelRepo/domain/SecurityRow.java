@@ -1,6 +1,6 @@
-package ca.jrvs.apps.trading.model.domain;
+package ca.jrvs.apps.trading.modelRepo.domain;
 
-import ca.jrvs.apps.trading.model.dto.Quote;
+import ca.jrvs.apps.trading.modelRepo.dto.Quote;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

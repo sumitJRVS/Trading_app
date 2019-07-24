@@ -1,5 +1,5 @@
 
-package ca.jrvs.apps.trading.model.dto;
+package ca.jrvs.apps.trading.modelRepo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

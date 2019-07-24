@@ -1,10 +1,12 @@
 package ca.jrvs.apps.trading.dao;
 
+import ca.jrvs.apps.trading.modelRepo.dto.Quote;
+
 /**
  * This is interface for generic CRUD operation
  * In the interface definition: E type is assigned for Entity , ID type assigned to id.
  */
-public interface CrudRepo <E, ID> {
+    public interface CrudRepo <E, ID> {
 
 
     /**
@@ -22,7 +24,6 @@ public interface CrudRepo <E, ID> {
      * @return not null Entity
      * Throws ResourceNotFound Exception (if no entity found) and SQL Exception (if SQL statement execution fails).
      */
-
     E findById(ID id);
 
 

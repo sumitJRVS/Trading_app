@@ -1,4 +1,4 @@
-package ca.jrvs.apps.trading.model.dto;
+package ca.jrvs.apps.trading.modelRepo.dto;
 
 public interface Entity <ID> {
     ID getID();

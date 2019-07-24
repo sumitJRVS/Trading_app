@@ -3,8 +3,8 @@ package ca.jrvs.apps.trading.services;
 
 import ca.jrvs.apps.trading.dao.MarketDataDao;
 import ca.jrvs.apps.trading.dao.QuoteDao;
-import ca.jrvs.apps.trading.model.dto.IexQuote;
-import ca.jrvs.apps.trading.model.dto.Quote;
+import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
+import ca.jrvs.apps.trading.modelRepo.dto.Quote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class QuoteService{
      * Note: `iexQuote.getLatestPrice() == null` if the stock market is closed.
      * Make sure set a default value for number field(s).
      */
-    public Quote BuildIEXquoteTOquote(IexQuote iexQuote){
+    public Quote buildIEXquoteTOquote(IexQuote iexQuote){
         Quote quote = new Quote();
 
         if (iexQuote.getLatestPrice() == null) {

@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.dto.IexQuote;
+import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
