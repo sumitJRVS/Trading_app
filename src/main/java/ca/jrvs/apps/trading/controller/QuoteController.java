@@ -88,7 +88,7 @@ public class QuoteController {
         }
     }
 */
-    @GetMapping(path = "/iex/tickersInBatch/{ticker}")
+    @GetMapping(path = "/iex/tickerId/{ticker}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<IexQuote> getBatchQuote(@PathVariable String ticker) {

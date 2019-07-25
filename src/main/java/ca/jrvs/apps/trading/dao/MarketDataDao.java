@@ -1,9 +1,12 @@
 package ca.jrvs.apps.trading.dao;
 
+import ca.jrvs.apps.trading.modelRepo.dto.Entity;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.HttpClientConnectionManager;
@@ -17,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import springfox.documentation.spring.web.json.Json;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -39,17 +43,6 @@ public class MarketDataDao {
         this.httpClientConnectionManager = htCliConMgr;
     }
 
-    /*
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
-        MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
-        List<String> a = new ArrayList<>();
-
-        objectMktDAO.findIexQuoteByTicker(a);
-    }
-*/
-
-
     //HTtp client borrowing 1 connection from connection manager
     public CloseableHttpClient httpClient() {
         CloseableHttpClient httpcli = HttpClients.custom().setConnectionManager(httpClientConnectionManager).build();
@@ -64,10 +57,19 @@ public class MarketDataDao {
 
     }
 
+    public <T> T toObjectFromJson(String json, Class clazz) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return (T) mapper.readValue(json, clazz);
+    }
+
     public List<IexQuote> findIexQuoteByTicker(List<String> tickerToQuote) throws IOException {
 
-       // List<String> iexquotesinList = new ArrayList<>();
-       // iexquotesinList.add(tickerToQuote);
+        /* List<String> iexquotesinList = new ArrayList<>();
+         iexquotesinList.add(tickerToQuote);
+         Thsi si transferred to main application.java so user arguments taken + recorded at that point
+
+         */
 
         String tickaddedTOlistofQuotes = String.join(",", tickerToQuote);
         String url = String.format(URL_ROOT, tickaddedTOlistofQuotes);
@@ -78,22 +80,22 @@ public class MarketDataDao {
         // move string response of quote(s) to JSONobject while checking the conditions
         JSONObject iexQtJson = new JSONObject(iexQtStr);
 
-        /**
+
         logger.info("tickaddedTolistofQuotes%%", tickaddedTOlistofQuotes);
         logger.debug("url%%" + url);
         logger.debug("res%%" + res);
         logger.debug("iexQtStr" + iexQtStr);
         logger.debug("iexQtStr%%" + iexQtStr);
 
-*/
 
         if (iexQtJson.length() == 0) {
-            System.out.println("not found");
+            System.out.println("JSON outcome not found, something wrong");
         }
 
-        //start Unmarshall Json object from output var=iexQtJson
-        // move string response of quote(s) to JSONobject while checking the conditions
+        //start Unmarshall Json object from output var=iexQtJson.
+        // move string response of quote(s) to JSONobject while checking the conditions.
 
+        // Created IexQuote type list for storing-adding results of each user entered ticker args's response.
         List<IexQuote> iexQuoteList = new ArrayList<>();
         iexQtJson.keys().forEachRemaining(ticker -> {
             String qtstr = ((JSONObject) iexQtJson.get(ticker)).get("quote").toString();
@@ -104,20 +106,43 @@ public class MarketDataDao {
                 e.printStackTrace();
             }
             iexQuoteList.add(iexQuote);
-            });
+        });
         System.out.println("MktDAO=" + iexQuoteList);
         return iexQuoteList;
     }
 
-    public <T> T toObjectFromJson(String json, Class clazz) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return (T) mapper.readValue(json, clazz);
+    /* public IexQuote findIexQuoteByTicker(String tickerToSingleQuote) throws IOException{
+
+        //URL constuct
+        String urlOneQuote = URL_ROOT + TRADETOKEN;
+
+        //response http
+        CloseableHttpResponse resFromUri = responseBack(urlOneQuote);
+        String stringResponse = EntityUtils.toString(resFromUri.getEntity());
+
+        //move stringResponse result to JSON obj
+        JSONObject iexJsonObj =  new JSONObject(stringResponse);
+
+        //unmarshall json obj
+        IexQuote iexQuoteList ;
+        String qtstr = ((JSONObject) iexJsonObj.get(tickerToSingleQuote)).get("quote").toString();
+        IexQuote iexQuote = new IexQuote();
+        iexQuote = toObjectFromJson(qtstr, IexQuote.class);
+        iexQuoteList.add(iexQuote);
+        return iexQuoteList;
+    } */
+
+    /**
+     * Below main method is just for testing MarketDataDao.java
+     * */
+    public static void main(String[] args) throws IOException {
+        HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
+        MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
+        List<String> a = new ArrayList<>();
+        a.add("amzn");
+
+        objectMktDAO.findIexQuoteByTicker(a);
     }
 
 
 }
-
-
-
-//add 1 function

@@ -82,13 +82,6 @@ public class Quote implements Entity<String> {
         this.askSize = askSize;
     }
 
-    public String getId() {
-        return ticker;
-    }
-
-    public void setId(String id) {
-        this.ticker = id;
-    }
 
     @Override
     public String getID() {

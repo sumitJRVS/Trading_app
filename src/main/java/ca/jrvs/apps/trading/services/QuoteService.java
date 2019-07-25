@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.ws.ServiceMode;
 
 @Service
 public class QuoteService{
@@ -44,7 +43,7 @@ public class QuoteService{
             quote.setBidSize(iexQuote.getIexBidSize());
             quote.setLastPrice(iexQuote.getLatestPrice());
             quote.setTicker(iexQuote.getSymbol());
-            quote.setId(iexQuote.getSymbol());
+            quote.setID(iexQuote.getSymbol());
         }
         return quote;
     }

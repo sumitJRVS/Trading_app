@@ -45,3 +45,5 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
     }
 }
+
+// http://localhost:8080/swagger-ui.html
