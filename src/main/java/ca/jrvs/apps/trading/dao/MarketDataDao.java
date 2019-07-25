@@ -25,6 +25,7 @@ import springfox.documentation.spring.web.json.Json;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -63,7 +64,7 @@ public class MarketDataDao {
         return (T) mapper.readValue(json, clazz);
     }
 
-    public List<IexQuote> findIexQuoteByTicker(List<String> tickerToQuote) throws IOException {
+    public List<IexQuote> findIexQuoteByTickerList(List<String> tickerToQuote) throws IOException {
 
         /* List<String> iexquotesinList = new ArrayList<>();
          iexquotesinList.add(tickerToQuote);
@@ -71,8 +72,8 @@ public class MarketDataDao {
 
          */
 
-        String tickaddedTOlistofQuotes = String.join(",", tickerToQuote);
-        String url = String.format(URL_ROOT, tickaddedTOlistofQuotes);
+        String tickeraddedTolistofQuotes = String.join(",", tickerToQuote);
+        String url = String.format(URL_ROOT, tickeraddedTolistofQuotes);
 
         CloseableHttpResponse res = responseBack(url);
         String iexQtStr = EntityUtils.toString(res.getEntity());
@@ -81,11 +82,10 @@ public class MarketDataDao {
         JSONObject iexQtJson = new JSONObject(iexQtStr);
 
 
-        logger.info("tickaddedTolistofQuotes%%", tickaddedTOlistofQuotes);
+        logger.info("tickaddedTolistofQuotes%%", tickeraddedTolistofQuotes);
         logger.debug("url%%" + url);
         logger.debug("res%%" + res);
         logger.debug("iexQtStr" + iexQtStr);
-        logger.debug("iexQtStr%%" + iexQtStr);
 
 
         if (iexQtJson.length() == 0) {
@@ -111,10 +111,11 @@ public class MarketDataDao {
         return iexQuoteList;
     }
 
-    /* public IexQuote findIexQuoteByTicker(String tickerToSingleQuote) throws IOException{
+    public IexQuote findIexQuoteByOneTicker(String tickerToSingleQuote) throws IOException{
 
         //URL constuct
-        String urlOneQuote = URL_ROOT + TRADETOKEN;
+//        String urlOneQuote = URL_ROOT ;
+        String urlOneQuote = String.format(URL_ROOT , tickerToSingleQuote);
 
         //response http
         CloseableHttpResponse resFromUri = responseBack(urlOneQuote);
@@ -124,13 +125,31 @@ public class MarketDataDao {
         JSONObject iexJsonObj =  new JSONObject(stringResponse);
 
         //unmarshall json obj
-        IexQuote iexQuoteList ;
         String qtstr = ((JSONObject) iexJsonObj.get(tickerToSingleQuote)).get("quote").toString();
-        IexQuote iexQuote = new IexQuote();
-        iexQuote = toObjectFromJson(qtstr, IexQuote.class);
+
+
+        List<IexQuote> iexQuoteList = new ArrayList<>();
+
+
+        IexQuote iexQuote = iexQuote = toObjectFromJson(qtstr, IexQuote.class);
+
         iexQuoteList.add(iexQuote);
-        return iexQuoteList;
-    } */
+
+        /*  System.out.println(iexQuoteList );
+            System.out.println(iexQuoteList.get(0));
+            System.out.println(iexQuoteList.toString());
+            System.out.println(iexQuote);
+
+         */
+
+
+        return iexQuoteList.get(0);
+
+        //return  iexQuoteList;
+
+    }
+
+
 
     /**
      * Below main method is just for testing MarketDataDao.java
@@ -140,8 +159,10 @@ public class MarketDataDao {
         MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
         List<String> a = new ArrayList<>();
         a.add("amzn");
+        //List ticker
+        //objectMktDAO.findIexQuoteByTickerList(a);
 
-        objectMktDAO.findIexQuoteByTicker(a);
+        objectMktDAO.findIexQuoteByOneTicker("ADBE");
     }
 
 

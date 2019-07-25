@@ -22,7 +22,7 @@ public class MarketDataDaoTest {
 
 
         try {
-            objectMktDAO.findIexQuoteByTicker(Arrays.asList("aapl","fb"));
+            objectMktDAO.findIexQuoteByTickerList(Arrays.asList("aapl","fb"));
         } catch (IOException e) {
             e.printStackTrace();
         }

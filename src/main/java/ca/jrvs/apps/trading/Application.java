@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 import javax.sql.DataSource;
 import java.util.List;
-
+//below line was referred by Edward in 1.3.1.4
 @SpringBootApplication(exclude = {JdbcTemplateAutoConfiguration.class, DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class Application implements CommandLineRunner {
     @Autowired
@@ -35,12 +35,13 @@ public class Application implements CommandLineRunner {
 
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(Application.class);
-
         //Turn off web
         app.run(args);
 
     }
 
+
+    //I dont care for below CommandLineRunner void run method implementation, we dont care for now().
     @Override
     public void run(String... args) throws Exception {
     }

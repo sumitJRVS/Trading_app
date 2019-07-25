@@ -76,18 +76,19 @@ public class QuoteController {
     }
 
     */
-    /*
+
     @GetMapping(path = "/iex/ticker/{ticker}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public IexQuote getQuote(@PathVariable String ticker) {
         try {
-            return marketDataDao.UnmarshallJson(ticker);
+            return marketDataDao.findIexQuoteByOneTicker(ticker);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-*/
+
+
     @GetMapping(path = "/iex/tickerId/{ticker}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -95,7 +96,7 @@ public class QuoteController {
         try {
             List<String> tickers = new ArrayList<String>(Arrays.asList(ticker.split(",")));
 
-            return marketDataDao.findIexQuoteByTicker(tickers);
+            return marketDataDao.findIexQuoteByTickerList(tickers);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
