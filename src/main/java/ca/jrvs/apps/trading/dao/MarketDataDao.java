@@ -128,12 +128,11 @@ public class MarketDataDao {
         String qtstr = ((JSONObject) iexJsonObj.get(tickerToSingleQuote)).get("quote").toString();
 
 
-        List<IexQuote> iexQuoteList = new ArrayList<>();
+        List<IexQuote> iexQuoteList = new ArrayList();
 
 
         IexQuote iexQuote = iexQuote = toObjectFromJson(qtstr, IexQuote.class);
 
-        iexQuoteList.add(iexQuote);
 
         /*  System.out.println(iexQuoteList );
             System.out.println(iexQuoteList.get(0));

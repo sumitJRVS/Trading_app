@@ -26,6 +26,7 @@ public class QuoteDao implements CrudRepo<Quote, ID>{
 
     private JdbcTemplate jdbcTmp;
     private SimpleJdbcInsert simpleJDBCins;
+
     //Constructor
     @Autowired
     public QuoteDao(DataSource dataSrc){
@@ -40,7 +41,8 @@ public class QuoteDao implements CrudRepo<Quote, ID>{
     @Override
     public Quote get(Quote thingsFromQuote) {
         SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(thingsFromQuote);
-        //Number assignedNo = this.simpleJDBCins.executeAndReturnKey(sqlParameterSource); // this  will be used for making other funcn
+        // Number assignedNo : this  will be used for making other funcn.
+        Number assignedNo = this.simpleJDBCins.executeAndReturnKey(sqlParameterSource);
         return thingsFromQuote;
     }
 
