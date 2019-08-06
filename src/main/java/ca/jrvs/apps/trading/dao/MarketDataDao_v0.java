@@ -1,46 +1,34 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.modelRepo.dto.Entity;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
-import ca.jrvs.apps.trading.modelRepo.dto.Quote;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
-
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
-public class MarketDataDao {
+public class MarketDataDao_v0 {
 
     // final static variables defined;    // URL base
-    private Logger logger = LoggerFactory.getLogger(MarketDataDao.class);
+    private Logger logger = LoggerFactory.getLogger(MarketDataDao_v0.class);
     private static final String TRADETOKEN = System.getenv("tradetoken");
     private static String URL_ROOT = ("https://cloud.iexapis.com/stable/stock/market/batch?symbols=%s&types=quote&token=" + TRADETOKEN);
 
     private HttpClientConnectionManager httpClientConnectionManager;
 
     // constructure
-    @Autowired
-    public MarketDataDao(HttpClientConnectionManager htCliConMgr) {
+    public MarketDataDao_v0(HttpClientConnectionManager htCliConMgr) {
         this.httpClientConnectionManager = htCliConMgr;
     }
 
@@ -116,7 +104,7 @@ public class MarketDataDao {
         //URL constuct
 //        String urlOneQuote = URL_ROOT ;
         String urlOneQuote = String.format(URL_ROOT , tickerToSingleQuote);
-
+        System.out.println(urlOneQuote);
         //response http
         CloseableHttpResponse resFromUri = responseBack(urlOneQuote);
         String stringResponse = EntityUtils.toString(resFromUri.getEntity());
@@ -128,23 +116,13 @@ public class MarketDataDao {
         String qtstr = ((JSONObject) iexJsonObj.get(tickerToSingleQuote)).get("quote").toString();
 
 
-        List<IexQuote> iexQuoteList = new ArrayList();
+        IexQuote iexQuote =  toObjectFromJson(qtstr, IexQuote.class);
 
 
-        IexQuote iexQuote = iexQuote = toObjectFromJson(qtstr, IexQuote.class);
+        System.out.println(iexQuote);
 
+        return iexQuote;
 
-        /*  System.out.println(iexQuoteList );
-            System.out.println(iexQuoteList.get(0));
-            System.out.println(iexQuoteList.toString());
-            System.out.println(iexQuote);
-
-         */
-
-
-        return iexQuoteList.get(0);
-
-        //return  iexQuoteList;
 
     }
 
@@ -153,6 +131,8 @@ public class MarketDataDao {
     /**
      * Below main method is just for testing MarketDataDao.java
      * */
+
+   /*
     public static void main(String[] args) throws IOException {
         HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
         MarketDataDao objectMktDAO = new MarketDataDao(newObjCMG);
@@ -161,8 +141,12 @@ public class MarketDataDao {
         //List ticker
         //objectMktDAO.findIexQuoteByTickerList(a);
 
+        List<String > abc = new ArrayList<String>();
+        abc.add("msft");
+        abc.add("amzn");
         objectMktDAO.findIexQuoteByOneTicker("ADBE");
+        objectMktDAO.findIexQuoteByTickerList(abc);
     }
 
-
+*/
 }

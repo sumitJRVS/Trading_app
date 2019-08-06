@@ -1,6 +1,8 @@
+
 package ca.jrvs.apps.trading;
 
-import ca.jrvs.apps.trading.dao.MarketDataDao;
+
+import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
 import ca.jrvs.apps.trading.services.QuoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +17,12 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 import javax.sql.DataSource;
 import java.util.List;
-//below line was referred by Edward in 1.3.1.4
+
+//below lines were ref to Edward in 1.3.1.4
 @SpringBootApplication(exclude = {JdbcTemplateAutoConfiguration.class, DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class Application implements CommandLineRunner {
     @Autowired
-    private MarketDataDao marketDataDao;
+    private MarketDataDao_v1_springboot marketDataDao;
     private Logger logger = LoggerFactory.getLogger((Application.class));
     @Autowired
     private DataSource dataSource;
@@ -37,7 +40,6 @@ public class Application implements CommandLineRunner {
         SpringApplication app = new SpringApplication(Application.class);
         //Turn off web
         app.run(args);
-
     }
 
 
@@ -48,3 +50,6 @@ public class Application implements CommandLineRunner {
 }
 
 // http://localhost:8080/swagger-ui.html
+
+
+

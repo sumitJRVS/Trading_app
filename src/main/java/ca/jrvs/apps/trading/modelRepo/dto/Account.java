@@ -4,6 +4,8 @@ package ca.jrvs.apps.trading.modelRepo.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sun.xml.internal.bind.v2.model.core.ID;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -12,34 +14,25 @@ import org.apache.commons.lang.builder.ToStringBuilder;
         "id",
         "traderId"
 })
-public class Account {
+public class Account implements Entity<Integer> {
 
     @JsonProperty("amount")
-    private Integer amount;
+    private Double amount;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("traderId")
     private Integer traderId;
 
     @JsonProperty("amount")
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
     @JsonProperty("amount")
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @JsonProperty("traderId")
     public Integer getTraderId() {
@@ -56,4 +49,14 @@ public class Account {
         return new ToStringBuilder(this).append("amount", amount).append("id", id).append("traderId", traderId).toString();
     }
 
+    @Override
+    public Integer getID() {
+        return id;
+    }
+
+    @Override
+    public void setID(Integer intID) {
+        this.id = intID;
+
+    }
 }

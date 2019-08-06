@@ -1,5 +1,6 @@
 package ca.jrvs.apps.trading.modelRepo.domain;
 
+import ca.jrvs.apps.trading.modelRepo.dto.Entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,7 +12,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
         "position",
         "ticker"
 })
-public class Position {
+public class Position implements Entity<Integer> {
 
     @JsonProperty("accountId")
     private Integer accountId;
@@ -55,4 +56,14 @@ public class Position {
         return new ToStringBuilder(this).append("accountId", accountId).append("position", position).append("ticker", ticker).toString();
     }
 
+    @Override
+    public Integer getID() {
+        return accountId;
+    }
+
+    @Override
+    public void setID(Integer intId) {
+        this.accountId = intId;
+
+    }
 }

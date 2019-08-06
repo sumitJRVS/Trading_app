@@ -1,58 +1,61 @@
 package ca.jrvs.apps.trading.controller;
 
-import ca.jrvs.apps.trading.dao.MarketDataDao;
-import ca.jrvs.apps.trading.dao.QuoteDao;
+import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
+import ca.jrvs.apps.trading.dao.QuoteDao_v1_jdbcCrudDao;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
-import ca.jrvs.apps.trading.services.QuoteService;
 import ca.jrvs.apps.trading.services.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-
 @Controller
-@RequestMapping ("/quote")
-
+@RequestMapping("/quote")
 public class QuoteController {
 
     private QuoteService quoteService;
-    private QuoteDao quoteDao;
-    private MarketDataDao marketDataDao;
+    private QuoteDao_v1_jdbcCrudDao quoteDao;
+    private MarketDataDao_v1_springboot marketDataDao;
 
     @Autowired
-    public QuoteController(QuoteService quoteService, QuoteDao quoteDao,
-                           MarketDataDao marketDataDao) {
+    public QuoteController(QuoteService quoteService,
+                           QuoteDao_v1_jdbcCrudDao quoteDaov1jdbcCrudDao,
+                           MarketDataDao_v1_springboot marketDataDaoV1Springboot) {
         this.quoteService = quoteService;
-        this.quoteDao = quoteDao;
-        this.marketDataDao = marketDataDao;
+        this.quoteDao = quoteDaov1jdbcCrudDao;
+        this.marketDataDao = marketDataDaoV1Springboot;
     }
-    /*
-        @PutMapping(path = "/iexMarketData")
-        @ResponseStatus(HttpStatus.OK)
-        public void updateMarketData() {
-            try {
-                quoteService.updateMarketData();
-            } catch (Exception e) {
-                throw ResponseExceptionUtil.getResponseStatusException(e);
-            }
+
+
+    @PutMapping(path = "/iexMarketData")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateMarketData() {
+        try {
+            quoteService.updateMarketDataOFjdbc();
+        } catch (IOException err) {
+            err.printStackTrace();
         }
-        @PutMapping(path = "/")
-        @ResponseStatus(HttpStatus.OK)
-        public void putQuote(@RequestBody Quote quote) {
-            try {
-                quoteDao.update(Collections.singletonList(quote));
-            } catch (Exception e) {
-                throw ResponseExceptionUtil.getResponseStatusException(e);
-            }
+    }
+
+/*
+    @PutMapping(path = "/")
+    @ResponseStatus(HttpStatus.OK)
+    public void putQuote(@RequestBody Quote quote) {
+        try {
+            quoteDao.update(Collections.singletonList(quote));
+        } catch (Exception e) {
+         eption(e);
         }
-     */
-    /*
+    }
+*/
+
     @PostMapping(path = "/tickerId/{tickerId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void createQuote(@PathVariable String tickerId) {
@@ -69,18 +72,17 @@ public class QuoteController {
     @ResponseBody
     public List<Quote> getDailyList() {
         try {
-            return quoteDao.findAll();
+            return quoteDao.findAllQuotesList();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    */
 
-    @GetMapping(path = "/iex/ticker/{ticker}")
+    @GetMapping(path = "/iex/tickerId/{ticker}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public IexQuote getQuote(@PathVariable String ticker) {
+    public IexQuote getSingleQuote(@PathVariable String ticker) {
         try {
             return marketDataDao.findIexQuoteByOneTicker(ticker);
         } catch (Exception e) {
@@ -89,7 +91,7 @@ public class QuoteController {
     }
 
 
-    @GetMapping(path = "/iex/tickerId/{ticker}")
+    @GetMapping(path = "/iex/tickerBatch/{ticker}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<IexQuote> getBatchQuote(@PathVariable String ticker) {
@@ -103,6 +105,7 @@ public class QuoteController {
     }
 
 }
+
 
 
 

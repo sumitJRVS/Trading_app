@@ -13,7 +13,7 @@ public class AppConfig {
     private Logger logging = LoggerFactory.getLogger(AppConfig.class);
 
     // Creating ApacheData Source connection.
-    private static final String JDBC_URL = "jdbc:posttgresql://localhost:5432/jrvstrading_test";
+    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/jrvstrading";
     private static final String DB_USER ="postgres";
     private static final String DB_PASS ="password";
 
@@ -21,6 +21,7 @@ public class AppConfig {
     public DataSource dataSource (){
         logging.info("Creating ApacheData Source connection");
         BasicDataSource datasource = new BasicDataSource();
+        datasource.setDriverClassName("org.postgresql.Driver"); // CAPITAL 'D' is important
         datasource.setUrl(JDBC_URL);
         datasource.setUsername(DB_USER);
         datasource.setPassword(DB_PASS);

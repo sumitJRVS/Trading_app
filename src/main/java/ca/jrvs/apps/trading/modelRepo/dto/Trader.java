@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
         "id",
         "lastName"
 })
-public class Trader {
+public class Trader implements Entity<Integer>{
 
     @JsonProperty("country")
     private String country;
@@ -70,15 +70,6 @@ public class Trader {
         this.firstName = firstName;
     }
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @JsonProperty("lastName")
     public String getLastName() {
@@ -94,5 +85,18 @@ public class Trader {
     public String toString() {
         return new ToStringBuilder(this).append("country", country).append("dob", dob).append("email", email).append("firstName", firstName).append("id", id).append("lastName", lastName).toString();
     }
+
+
+    @Override
+    public Integer getID() {
+        return id;
+    }
+
+    @Override
+    public void setID(Integer idToset) {
+        this.id = idToset;
+    }
+
+
 
 }

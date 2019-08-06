@@ -1,9 +1,12 @@
 package ca.jrvs.apps.trading.modelRepo.domain;
 
+import ca.jrvs.apps.trading.modelRepo.dto.Entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import javax.xml.stream.events.EndDocument;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -15,7 +18,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
         "status",
         "ticker"
 })
-public class SecurityOrder {
+public class SecurityOrder implements Entity<Integer> {
 
     @JsonProperty("accountId")
     private Integer accountId;
@@ -107,4 +110,13 @@ public class SecurityOrder {
         return new ToStringBuilder(this).append("accountId", accountId).append("id", id).append("notes", notes).append("price", price).append("size", size).append("status", status).append("ticker", ticker).toString();
     }
 
+    @Override
+    public Integer getID() {
+        return id;
+    }
+
+    @Override
+    public void setID(Integer intID) {
+        this.id = intID;
+    }
 }

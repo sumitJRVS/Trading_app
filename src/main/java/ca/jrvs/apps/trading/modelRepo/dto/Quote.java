@@ -4,17 +4,20 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Objects;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "askPrice",
-        "askSize",
+        "ticker",
+        "lastPrice",
         "bidPrice",
         "bidSize",
-        "id",
-        "lastPrice",
-        "ticker"
+        "askPrice",
+        "askSize",
+        "id"
 })
 public class Quote implements Entity<String> {
+
     @JsonProperty("ticker")
     private String ticker;
     @JsonProperty("lastPrice")
@@ -30,88 +33,93 @@ public class Quote implements Entity<String> {
     @JsonProperty("id")
     private String id;
 
-    public Quote() {
-        super();
-    }
-
+    @JsonProperty("ticker")
     public String getTicker() {
         return ticker;
     }
 
+    @JsonProperty("ticker")
     public void setTicker(String ticker) {
         this.ticker = ticker;
     }
 
+    @JsonProperty("lastPrice")
     public Double getLastPrice() {
         return lastPrice;
     }
 
+    @JsonProperty("lastPrice")
     public void setLastPrice(Double lastPrice) {
         this.lastPrice = lastPrice;
     }
 
+    @JsonProperty("bidPrice")
     public Double getBidPrice() {
         return bidPrice;
     }
 
+    @JsonProperty("bidPrice")
     public void setBidPrice(Double bidPrice) {
         this.bidPrice = bidPrice;
     }
 
+    @JsonProperty("bidSize")
     public Long getBidSize() {
         return bidSize;
     }
 
+    @JsonProperty("bidSize")
     public void setBidSize(Long bidSize) {
         this.bidSize = bidSize;
     }
 
+    @JsonProperty("askPrice")
     public Double getAskPrice() {
         return askPrice;
     }
 
+    @JsonProperty("askPrice")
     public void setAskPrice(Double askPrice) {
         this.askPrice = askPrice;
     }
 
+    @JsonProperty("askSize")
     public Long getAskSize() {
         return askSize;
     }
 
+    @JsonProperty("askSize")
     public void setAskSize(Long askSize) {
         this.askSize = askSize;
     }
 
-
-    @Override
+    @JsonProperty("id")
     public String getID() {
-        return null;
+        return id;
+    }
+
+    @JsonProperty("id")
+    public void setID(String id) {
+        this.id = id;
     }
 
     @Override
-    public void setID(String s) {
-
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Quote)) return false;
+        Quote quote = (Quote) o;
+        return Objects.equals(getTicker(), quote.getTicker()) &&
+                Objects.equals(getLastPrice(), quote.getLastPrice()) &&
+                Objects.equals(getBidPrice(), quote.getBidPrice()) &&
+                Objects.equals(getBidSize(), quote.getBidSize()) &&
+                Objects.equals(getAskPrice(), quote.getAskPrice()) &&
+                Objects.equals(getAskSize(), quote.getAskSize()) &&
+                Objects.equals(getID(), quote.getID());
     }
-
 
     @Override
     public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
+        return Objects.hash(getTicker(), getLastPrice(), getBidPrice(), getBidSize(), getAskPrice(), getAskSize(), getID());
     }
 
     @Override
@@ -126,8 +134,4 @@ public class Quote implements Entity<String> {
                 ", id='" + id + '\'' +
                 '}';
     }
-
-
 }
-
-
