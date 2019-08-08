@@ -8,7 +8,7 @@
             <directory>target</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>trading-1.0-SNAPSHOT.jar</include>
+                <include>trading_app-1.0-SNAPSHOT.jar</include>
             </includes>
         </fileSet>
     </fileSets>

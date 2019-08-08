@@ -24,7 +24,6 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
     public AccountDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate((dataSource));
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(ID_NAME);
-        ;
     }
 
     @Override

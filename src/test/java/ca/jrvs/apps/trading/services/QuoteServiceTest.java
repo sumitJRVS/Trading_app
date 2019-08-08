@@ -43,7 +43,7 @@ public class QuoteServiceTest {
         testQuote.setID("cpl");
         testQuote.setLastPrice(20.0);
 
-        Quote expectedQuote = quoteService.buildQuoteFromIEXquote(testIEXQuote);
+        Quote expectedQuote = QuoteService.buildQuoteFromIEXquote(testIEXQuote);
 
 
         assertEquals(testQuote, expectedQuote);

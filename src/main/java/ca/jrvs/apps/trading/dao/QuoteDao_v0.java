@@ -1,4 +1,6 @@
+/*
 package ca.jrvs.apps.trading.dao;
+
 
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
 import com.sun.xml.internal.bind.v2.model.core.ID;
@@ -71,3 +73,4 @@ public class QuoteDao_v0 implements CrudRepo<Quote, ID> {
 
 }
 
+*/
