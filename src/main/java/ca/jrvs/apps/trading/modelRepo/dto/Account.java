@@ -1,11 +1,8 @@
-
 package ca.jrvs.apps.trading.modelRepo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sun.xml.internal.bind.v2.model.core.ID;
-import io.swagger.models.auth.In;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -14,21 +14,20 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = {"ca.jrvs.apps.trading.dao", "ca.jrvs.apps.trading.services"})
 public class AppConfigTest {
-    private Logger logging = LoggerFactory.getLogger(AppConfigTest.class);
-
     // Creating ApacheData Source connection.
     private static final String JDBC_URL = "jdbc:posttgresql://localhost:5432/jrvstrading_test";
-    private static final String DB_USER ="postgres";
-    private static final String DB_PASS ="password";
+    private static final String DB_USER = "postgres";
+    private static final String DB_PASS = "password";
+    private Logger logging = LoggerFactory.getLogger(AppConfigTest.class);
 
     @Bean
-    public DataSource dataSource (){
+    public DataSource dataSource() {
         logging.info("Creating ApacheData Source connection");
         BasicDataSource datasource = new BasicDataSource();
         datasource.setUrl(JDBC_URL);
         datasource.setUsername(DB_USER);
         datasource.setPassword(DB_PASS);
-        logging.debug("JDBC URL" , datasource.getUrl(), "Username", datasource.getUsername(), "Password", datasource.getPassword() );
+        logging.debug("JDBC URL", datasource.getUrl(), "Username", datasource.getUsername(), "Password", datasource.getPassword());
 
         return datasource;
 

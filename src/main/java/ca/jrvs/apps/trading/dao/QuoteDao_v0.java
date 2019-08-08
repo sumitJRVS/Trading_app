@@ -14,22 +14,21 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 
 @Repository
-public class QuoteDao_v0 implements CrudRepo<Quote, ID>{
-    Logger logger = LoggerFactory.getLogger(QuoteDao_v0.class);
+public class QuoteDao_v0 implements CrudRepo<Quote, ID> {
     private final static String TABLE_NAME = "quote";
     private final static String ID_NAME = "ticker";
-
+    Logger logger = LoggerFactory.getLogger(QuoteDao_v0.class);
     private JdbcTemplate jdbcTmp;
     private SimpleJdbcInsert simpleJDBCins;
 
     //Constructor
     @Autowired
-    public QuoteDao_v0(DataSource dataSrc){
+    public QuoteDao_v0(DataSource dataSrc) {
         logger.info("Short story long: JdbcTemplate  jdbctempl= new JdbcTemplate();\n" +
                 "jdbctempl = new JdbcTemplate(dataSrc);");
 
         this.jdbcTmp = new JdbcTemplate(dataSrc);
-        this.simpleJDBCins  = new SimpleJdbcInsert(dataSrc).withTableName(TABLE_NAME);
+        this.simpleJDBCins = new SimpleJdbcInsert(dataSrc).withTableName(TABLE_NAME);
     }
 
 

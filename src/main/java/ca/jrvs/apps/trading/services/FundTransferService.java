@@ -7,93 +7,89 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 
 @Service
-    @Transactional
-    public class FundTransferService {
+@Transactional
+public class FundTransferService {
 
-        private static final Logger logger = LoggerFactory.getLogger(FundTransferService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FundTransferService.class);
 
-        private AccountDao accountDao;
-        private TraderDao traderDao;
+    private AccountDao accountDao;
+    private TraderDao traderDao;
 
-        @Autowired
-        public FundTransferService(AccountDao accountDao, TraderDao traderDao) {
-            this.accountDao = accountDao;
-            this.traderDao = traderDao;
+    @Autowired
+    public FundTransferService(AccountDao accountDao, TraderDao traderDao) {
+        this.accountDao = accountDao;
+        this.traderDao = traderDao;
+    }
+
+
+    /**
+     * Deposit a fund to the account which is associated with the traderId
+     * - validate user input
+     * - account = accountDao.findByTraderId
+     * - accountDao.updateAmountById
+     *
+     * @param traderId trader id cant be null
+     * @param amount   (can't be 0)
+     * @return updated Account object
+     * @throws ResourceNotFoundException if account is not found
+     * @throws IllegalArgumentException  for invalid input
+     */
+    public Account deposit(Integer traderId, Double amount) {
+        if (traderId == null) {
+            throw new IllegalArgumentException("TraderId is not valid");
         }
 
-
-        /**
-         * Deposit a fund to the account which is associated with the traderId
-         * - validate user input
-         * - account = accountDao.findByTraderId
-         * - accountDao.updateAmountById
-         *
-         * @param traderId trader id cant be null
-         * @param amount (can't be 0)
-         * @return updated Account object
-         * @throws ResourceNotFoundException if account is not found
-         * @throws IllegalArgumentException for invalid input
-         */
-
-        public Account deposit(Integer traderId, Double amount) {
-            if (traderId == null) {
-                throw new IllegalArgumentException("TraderId is not valid");
-            }
-
-            if (amount <= 0.0) {
-                throw new IllegalArgumentException("Fund amount must be > than 0");
-            }
-
-            if (!(traderDao.existsById(traderId))) {
-                throw new ResourceNotFoundException("Trader does not exists");
-            }
-            Account account = accountDao.findById(traderId);
-            accountDao.updateAmountByID(account.getID(), amount);
-
-            return null;
+        if (amount <= 0.0) {
+            throw new IllegalArgumentException("Fund amount must be > than 0");
         }
 
+        if (!(traderDao.existsById(traderId))) {
+            throw new ResourceNotFoundException("Trader does not exists");
+        }
+        Account account = accountDao.findById(traderId);
+        accountDao.updateAmountByID(account.getID(), amount);
+
+        return null;
+    }
 
 
-        /**
-         * Withdraw a fund from the account which is associated with the traderId
-         *
-         * - validate user input
-         * - account = accountDao.findByTraderId
-         * - accountDao.updateAmountById
-         *
-         * @param traderId trader ID
-         * @param amount amount can't be 0
-         * @return updated Account object
-         * @throws org.springframework.dao.DataAccessException if unable to retrieve data
-         * @throws IllegalArgumentException for invalid input
-         */
+    /**
+     * Withdraw a fund from the account which is associated with the traderId
+     * - validate user input
+     * - account = accountDao.findByTraderId
+     * - accountDao.updateAmountById
+     *
+     * @param traderId trader ID
+     * @param amount   amount can't be 0
+     * @return updated Account object
+     * @throws IllegalArgumentException for invalid input
+     */
+    public Account withdraw(Integer traderId, Double amount) {
 
-        public Account withdraw(Integer traderId, Double amount) {
-
-            if(traderId == null || amount == null) {
-                throw new IllegalArgumentException("Invalid input");
-            }
+        if (traderId == null || amount == null) {
+            throw new IllegalArgumentException("Invalid input/argument");
+        } else {
 
             Account account = accountDao.findById(traderId);
-            Double newAmount = account.getAmount() - amount.floatValue();
+            Double newAmount = account.getAmount() - amount;
 
-            if(newAmount >= 0) {
+            if (newAmount >= 0) {
                 accountDao.updateAmountByID(traderId, newAmount);
+            } else {
+                throw new IllegalArgumentException("Not enough amount for withdrawal");
             }
-            else {throw new IllegalArgumentException("Not enough amount for withdrawal. Current funds = " + account.getAmount());}
 
             account.setAmount(newAmount);
-            logger.info("Withdrawing " + amount + "from Trader " + account.getTraderId());
+            logger.info("Withdrawing " + amount + " from Trader account#: " + account.getTraderId());
             return account;
         }
     }
+}
 
 

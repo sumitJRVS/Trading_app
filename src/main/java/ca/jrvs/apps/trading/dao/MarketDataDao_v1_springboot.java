@@ -24,17 +24,36 @@ import java.util.List;
 @Repository
 public class MarketDataDao_v1_springboot {
 
-    // final static variables defined;    // URL base
-    private Logger logger = LoggerFactory.getLogger(MarketDataDao_v1_springboot.class);
     private static final String TRADETOKEN = System.getenv("tradetoken");
     private static String URL_ROOT = ("https://cloud.iexapis.com/stable/stock/market/batch?symbols=%s&types=quote&token=" + TRADETOKEN);
-
+    // final static variables defined;    // URL base
+    private Logger logger = LoggerFactory.getLogger(MarketDataDao_v1_springboot.class);
     private HttpClientConnectionManager httpClientConnectionManager;
 
     // constructure
     @Autowired
     public MarketDataDao_v1_springboot(HttpClientConnectionManager htCliConMgr) {
         this.httpClientConnectionManager = htCliConMgr;
+    }
+
+    /**
+     * Below main method is just for testing MarketDataDao.java
+     */
+    public static void main(String[] args) throws IOException {
+        HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
+        MarketDataDao_v1_springboot objectMktDAO = new MarketDataDao_v1_springboot(newObjCMG);
+        /*
+        List<String> a = new ArrayList<>();
+        a.add("amzn");
+        //List ticker
+        //objectMktDAO.findIexQuoteByTickerList(a);
+
+        List<String > abc = new ArrayList<String>();
+        abc.add("msft");
+        abc.add("amzn");
+        */
+        objectMktDAO.findIexQuoteByOneTicker("ADBE");
+        //objectMktDAO.findIexQuoteByTickerList(abc);
     }
 
     //Http client borrowing 1 connection from connection manager
@@ -104,46 +123,20 @@ public class MarketDataDao_v1_springboot {
         return iexQuoteList;
     }
 
-
     /**
-     *
      * @param ticker
      * @return Only 1 ticker's IexQuote, so returning 0th element of the list
      * @throws IOException
      */
-    public IexQuote findIexQuoteByOneTicker(String ticker) throws IOException{
+    public IexQuote findIexQuoteByOneTicker(String ticker) throws IOException {
 
         List<IexQuote> iexQuote = findIexQuoteByTickerList(Arrays.asList(ticker));
         if (iexQuote.size() == 0) {
             System.out.println("JSON output not found, something wrong");
         }
         //no need to iterate the list as it has only 1 evelemnt and we know location as 0th.
-       return iexQuote.get(0);
+        return iexQuote.get(0);
     }
-
-
-
-
-    /**
-     * Below main method is just for testing MarketDataDao.java
-     * */
-    public static void main(String[] args) throws IOException {
-        HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
-        MarketDataDao_v1_springboot objectMktDAO = new MarketDataDao_v1_springboot(newObjCMG);
-        /*
-        List<String> a = new ArrayList<>();
-        a.add("amzn");
-        //List ticker
-        //objectMktDAO.findIexQuoteByTickerList(a);
-
-        List<String > abc = new ArrayList<String>();
-        abc.add("msft");
-        abc.add("amzn");
-        */
-        objectMktDAO.findIexQuoteByOneTicker("ADBE");
-        //objectMktDAO.findIexQuoteByTickerList(abc);
-    }
-
 
 
 }

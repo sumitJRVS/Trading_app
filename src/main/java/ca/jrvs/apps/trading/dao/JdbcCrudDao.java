@@ -36,9 +36,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
             System.out.println(entity);
             // entity.setID(newId.intValue());
             return entity;
-        }
-
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Suckk my dick");
         }
     }
@@ -76,6 +74,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
     public boolean existsById(ID id) {
         return existsById(getIdName(), id);
     }
+
     @Override
     public boolean existsById(String idName, ID id) {
         if (id == null) {
@@ -93,6 +92,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
     public void deleteById(ID id) {
         deleteById(getIdName(), id);
     }
+
     @Override
     public void deleteById(String idName, ID id) {
         if (id == null) {

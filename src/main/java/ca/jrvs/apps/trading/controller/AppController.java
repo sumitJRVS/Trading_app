@@ -15,7 +15,7 @@ public class AppController {
     @GetMapping(path = "/health")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public String getHealth(){
-        return "I am alive";
+    public String getHealth() {
+        return "I am alive because I am 200! okay?";
     }
 }

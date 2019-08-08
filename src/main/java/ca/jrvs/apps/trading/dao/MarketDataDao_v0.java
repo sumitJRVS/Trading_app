@@ -9,22 +9,20 @@ import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MarketDataDao_v0 {
 
-    // final static variables defined;    // URL base
-    private Logger logger = LoggerFactory.getLogger(MarketDataDao_v0.class);
     private static final String TRADETOKEN = System.getenv("tradetoken");
     private static String URL_ROOT = ("https://cloud.iexapis.com/stable/stock/market/batch?symbols=%s&types=quote&token=" + TRADETOKEN);
-
+    // final static variables defined;    // URL base
+    private Logger logger = LoggerFactory.getLogger(MarketDataDao_v0.class);
     private HttpClientConnectionManager httpClientConnectionManager;
 
     // constructure
@@ -99,24 +97,24 @@ public class MarketDataDao_v0 {
         return iexQuoteList;
     }
 
-    public IexQuote findIexQuoteByOneTicker(String tickerToSingleQuote) throws IOException{
+    public IexQuote findIexQuoteByOneTicker(String tickerToSingleQuote) throws IOException {
 
         //URL constuct
 //        String urlOneQuote = URL_ROOT ;
-        String urlOneQuote = String.format(URL_ROOT , tickerToSingleQuote);
+        String urlOneQuote = String.format(URL_ROOT, tickerToSingleQuote);
         System.out.println(urlOneQuote);
         //response http
         CloseableHttpResponse resFromUri = responseBack(urlOneQuote);
         String stringResponse = EntityUtils.toString(resFromUri.getEntity());
 
         //move stringResponse result to JSON obj
-        JSONObject iexJsonObj =  new JSONObject(stringResponse);
+        JSONObject iexJsonObj = new JSONObject(stringResponse);
 
         //unmarshall json obj
         String qtstr = ((JSONObject) iexJsonObj.get(tickerToSingleQuote)).get("quote").toString();
 
 
-        IexQuote iexQuote =  toObjectFromJson(qtstr, IexQuote.class);
+        IexQuote iexQuote = toObjectFromJson(qtstr, IexQuote.class);
 
 
         System.out.println(iexQuote);
@@ -125,7 +123,6 @@ public class MarketDataDao_v0 {
 
 
     }
-
 
 
     /**

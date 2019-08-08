@@ -4,13 +4,14 @@ import ca.jrvs.apps.trading.dao.AccountDao;
 import ca.jrvs.apps.trading.dao.PositionDao;
 import ca.jrvs.apps.trading.dao.SecurityOrderDao;
 import ca.jrvs.apps.trading.dao.TraderDao;
-import ca.jrvs.apps.trading.modelRepo.dto.Account;
 import ca.jrvs.apps.trading.modelRepo.domain.Position;
-import ca.jrvs.apps.trading.modelRepo.dto.Trader;
 import ca.jrvs.apps.trading.modelRepo.domain.TraderAccountView;
-import java.util.List;
+import ca.jrvs.apps.trading.modelRepo.dto.Account;
+import ca.jrvs.apps.trading.modelRepo.dto.Trader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RegisterService {
@@ -38,23 +39,21 @@ public class RegisterService {
      *
      * @param traderinput trader info
      * @return traderAccountView
-     * @throws org.springframework.dao.DataAccessException if unable to retrieve data
-     * @throws IllegalArgumentException for invalid input
      */
-        public TraderAccountView createTraderAndAccount(Trader traderinput) {
-            Trader trd = new Trader();
-            trd=traderDao.save(traderinput);
+    public TraderAccountView createTraderAndAccount(Trader traderinput) {
+        Trader trd = new Trader();
+        trd = traderDao.save(traderinput);
 
-            Account ac = new Account();
-            ac.setAmount(0.0);
-            ac.setTraderId(traderinput.getID());
-            accountDao.save(ac);
+        Account ac = new Account();
+        ac.setAmount(0.0);
+        ac.setTraderId(traderinput.getID());
+        accountDao.save(ac);
 
-            TraderAccountView trdAc =  new TraderAccountView();
-            trdAc.setAccount(ac);
+        TraderAccountView trdAc = new TraderAccountView();
+        trdAc.setAccount(ac);
 
-            trdAc.setTrader(trd);
-            return trdAc;
+        trdAc.setTrader(trd);
+        return trdAc;
     }
 
     /**
@@ -65,7 +64,6 @@ public class RegisterService {
      * - delete all securityOrders, account, trader (in this order)
      *
      * @param traderId
-     * @throws org.springframework.dao.DataAccessException if unable to retrieve data
      * @throws IllegalArgumentException for invalid input
      */
     public void deleteTraderById(Integer traderId) {
@@ -80,20 +78,19 @@ public class RegisterService {
             throw new IllegalArgumentException("trader_id does not exist");
         }
 
-
-
         //use AccountDAO object to check account ID
         Account account = accountDao.findById(traderId);
-        if (account.getAmount() == 0.0) { throw new IllegalArgumentException("Account has some balance and can not be deleted");}
+        if (account.getAmount() == 0.0) {
+            throw new IllegalArgumentException("Account has some balance and can not be deleted");
+        }
 
         //now checking account + trader conditions together (nested if)
         List<Position> positionsList = positionDao.getPosition(traderId);
-        if (positionsList.size() !=0) {
+        if (positionsList.size() != 0) {
             positionsList.forEach(position -> {
-                if (account.getAmount() == 0 ) {
+                if (account.getAmount() == 0) {
                     securityOrderDao.deleteById(traderId);
-                }
-                else throw new IllegalArgumentException("Account does not have 0 balance and can not be deleted.");
+                } else throw new IllegalArgumentException("Account does not have 0 balance and can not be deleted.");
             });
         }
         accountDao.deleteById(account.getTraderId());

@@ -1,4 +1,3 @@
-
 package ca.jrvs.apps.trading.modelRepo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
         "id",
         "lastName"
 })
-public class Trader implements Entity<Integer>{
+public class Trader implements Entity<Integer> {
 
     @JsonProperty("country")
     private String country;
@@ -96,7 +95,6 @@ public class Trader implements Entity<Integer>{
     public void setID(Integer idToset) {
         this.id = idToset;
     }
-
 
 
 }

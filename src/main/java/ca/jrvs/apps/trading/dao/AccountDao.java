@@ -1,4 +1,5 @@
 package ca.jrvs.apps.trading.dao;
+
 import ca.jrvs.apps.trading.modelRepo.dto.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,8 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
     @Autowired
     public AccountDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate((dataSource));
-        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(ID_NAME);;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(ID_NAME);
+        ;
     }
 
     @Override
@@ -52,15 +54,12 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
 
     //Method that takes ID + amount and returns the updated Account
     public Account updateAmountByID(Integer id, Double amount) {
-        String query ="UPDATE"+" " + TABLE_NAME + " "+"SET amount=? WHERE id=?";
-        Integer update = jdbcTemplate.update(query,amount, id);
+        String query = "UPDATE" + " " + TABLE_NAME + " " + "SET amount=? WHERE id=?";
+        Integer update = jdbcTemplate.update(query, amount, id);
         return findById(id);
 
 
     }
-
-
-
 
 
 }

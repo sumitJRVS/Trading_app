@@ -1,4 +1,3 @@
-
 package ca.jrvs.apps.trading.services;
 
 import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
@@ -15,7 +14,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ca.jrvs.apps.trading.AppConfigTest.class,  loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = ca.jrvs.apps.trading.AppConfigTest.class, loader = AnnotationConfigContextLoader.class)
 public class QuoteServiceTest {
 
     @Autowired

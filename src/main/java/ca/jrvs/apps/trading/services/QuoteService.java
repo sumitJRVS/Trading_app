@@ -1,7 +1,6 @@
 package ca.jrvs.apps.trading.services;
 
 import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
-
 import ca.jrvs.apps.trading.dao.QuoteDao_v1_jdbcCrudDao;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
 import java.util.List;
 
 @Service
@@ -72,7 +70,7 @@ public class QuoteService {
      * Steps: search/get/collect all db's quote's ticker names
      * For each ticker convert iexquote entity-->quote entity-->db (complete 1 cycle)
      */
-    public void  updateMarketDataOFjdbc() throws IOException {
+    public void updateMarketDataOFjdbc() throws IOException {
         initQuotes(quoteDao_v1_jdbcCrudDao.findAllTickerList(quoteDao_v1_jdbcCrudDao.findAllQuotesList()));
     }
 

@@ -1,8 +1,6 @@
 /*
 package ca.jrvs.apps.trading.services;
 
-
-
 import ca.jrvs.apps.trading.dao.AccountDao;
 import ca.jrvs.apps.trading.dao.PositionDao;
 import ca.jrvs.apps.trading.dao.QuoteDao_v1_jdbcCrudDao;
@@ -120,5 +118,4 @@ public class OrderService {
         }
 
 }
-
 */
