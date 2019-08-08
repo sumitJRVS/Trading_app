@@ -54,7 +54,7 @@ public class TraderDao extends JdbcCrudDao<Trader, Integer> {
     Class getEntityClass() {
         return TraderDao.class;
     }
-
+/*
 
     //Method that takes ID + Amount and returns the updated Account
     public Trader createTrader(String first_name, String last_name, String dob, String country, String email) {
@@ -67,6 +67,7 @@ public class TraderDao extends JdbcCrudDao<Trader, Integer> {
         return trader;
     }
 
+*/
     @Override
     public Trader save(Trader entity) {
         return super.save(entity);
@@ -78,8 +79,8 @@ public class TraderDao extends JdbcCrudDao<Trader, Integer> {
     }
 
     @Override
-    public Trader findById(String idName, Integer integer, boolean forUpdate, Class clazz) {
-        return super.findById(idName, integer, forUpdate, clazz);
+    public Trader findById(String idName, Integer id, boolean forUpdate, Class clazz) {
+        return super.findById(idName, id, forUpdate, clazz);
     }
 
     @Override

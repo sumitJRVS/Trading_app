@@ -1,9 +1,16 @@
 package ca.jrvs.apps.trading.modelRepo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import java.time.LocalDate;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -18,8 +25,15 @@ public class Trader implements Entity<Integer> {
 
     @JsonProperty("country")
     private String country;
+
+
+    //this is very important concept for type casting date to string format using JsonFormat ,serialize deserialize class
     @JsonProperty("dob")
-    private String dob;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate dob;
+
     @JsonProperty("email")
     private String email;
     @JsonProperty("firstName")
@@ -40,12 +54,12 @@ public class Trader implements Entity<Integer> {
     }
 
     @JsonProperty("dob")
-    public String getDob() {
+    public LocalDate getDob() {
         return dob;
     }
 
     @JsonProperty("dob")
-    public void setDob(String dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 
@@ -82,7 +96,9 @@ public class Trader implements Entity<Integer> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("country", country).append("dob", dob).append("email", email).append("firstName", firstName).append("id", id).append("lastName", lastName).toString();
+        return new ToStringBuilder(this).append("id", id).append("firstName", firstName)
+                .append("lastName", lastName).append("dob", dob.toString()).append("country", country)
+                .append("email", email).toString();
     }
 
 

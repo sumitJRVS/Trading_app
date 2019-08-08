@@ -1,0 +1,22 @@
+<assembly>
+    <id>bootstrap-ec2</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>trading-1.0-SNAPSHOT.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>ec2</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

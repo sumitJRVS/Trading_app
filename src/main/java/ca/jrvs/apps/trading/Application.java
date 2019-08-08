@@ -15,36 +15,36 @@ import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.List;
 
 //below lines were ref to Edward in 1.3.1.4
 @SpringBootApplication(exclude = {JdbcTemplateAutoConfiguration.class, DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class Application implements CommandLineRunner {
-    @Autowired
-    private MarketDataDao_v1_springboot marketDataDao;
-    private Logger logger = LoggerFactory.getLogger((Application.class));
+
+    //private MarketDataDao_v1_springboot marketDataDao;
+
     @Autowired
     private DataSource dataSource;
+    private Logger logger = LoggerFactory.getLogger((Application.class));
 
-    @Value("aapl,fb")
+    @Value("aal,amd")
     private String[] dailyList;
 
     @Autowired
     private QuoteService quoteService;
 
-    @Value("aapl,fb")
-    private List<String> symbols;
-
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(Application.class);
-        //Turn off web
-        app.run(args);
+        app.run(); //app.run(args);
     }
 
 
     //I dont care for below CommandLineRunner void run method implementation, we dont care for now().
     @Override
     public void run(String... args) throws Exception {
+        quoteService.initQuotes(Arrays.asList(dailyList));
+        quoteService.updateMarketDataOFjdbc();
     }
 }
 
