@@ -29,16 +29,15 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
     public E save(E entity) {
 
         try {
-            System.out.println(entity);
             SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(entity);
+            Number newId= getSimpleJdbcInsert().executeAndReturnKey(parameterSource);
 
-            getSimpleJdbcInsert().execute(parameterSource);
-            System.out.println(entity);
-            // entity.setID(newId.intValue());
-            return entity;
+            //entity.setID(newId.intValue());
+
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Suckk my dick");
+            throw new IllegalArgumentException("Shit something wrong!");
         }
+        return entity;
     }
 
     @Override
@@ -82,8 +81,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
         }
         String selectSql = "SELECT count(*) FROM " + getTableName() + " WHERE " + idName + " =?";
         logger.info(selectSql);
-        Integer count = getJdbcTemplate()
-                .queryForObject(selectSql,
+        Integer count = getJdbcTemplate().queryForObject(selectSql,
                         Integer.class, id);
         return count != 0;
     }
@@ -98,8 +96,8 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
         if (id == null) {
             throw new IllegalArgumentException("ID can't be null");
         }
-        String deleteSql = "DELETE FROM " + getTableName() + " WHERE " + idName + " =?";
-        logger.info(deleteSql);
-        getJdbcTemplate().update(deleteSql, id);
+        String deleteQuery = "DELETE FROM " + getTableName() + " WHERE " + idName + " =?";
+        logger.info(deleteQuery);
+        getJdbcTemplate().update(deleteQuery, id);
     }
 }

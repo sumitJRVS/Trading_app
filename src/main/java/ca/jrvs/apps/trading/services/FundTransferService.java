@@ -66,18 +66,18 @@ public class FundTransferService {
      * - accountDao.updateAmountById
      *
      * @param traderId trader ID
-     * @param amount   amount can't be 0
+     * @param currentTranscaAmount   amount can't be 0
      * @return updated Account object
      * @throws IllegalArgumentException for invalid input
      */
-    public Account withdraw(Integer traderId, Double amount) {
+    public Account withdraw(Integer traderId, Double currentTranscaAmount) {
 
-        if (traderId == null || amount == null) {
+        if (traderId == null || currentTranscaAmount == null) {
             throw new IllegalArgumentException("Invalid input/argument");
         } else {
 
             Account account = accountDao.findById(traderId);
-            Double newAmount = account.getAmount() - amount;
+            Double newAmount = account.getAmount() - currentTranscaAmount;
 
             if (newAmount >= 0) {
                 accountDao.updateAmountByID(traderId, newAmount);
@@ -86,7 +86,7 @@ public class FundTransferService {
             }
 
             account.setAmount(newAmount);
-            logger.info("Withdrawing " + amount + " from Trader account#: " + account.getTraderId());
+            logger.info("Withdrawing " + currentTranscaAmount + " from Trader account#: " + account.getTraderId());
             return account;
         }
     }

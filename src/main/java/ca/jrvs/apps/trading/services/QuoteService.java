@@ -53,7 +53,7 @@ public class QuoteService {
     public void initQuote(String tickerId) throws IOException {
         IexQuote iexQuote = marketDataDao_v1_springboot.findIexQuoteByOneTicker(tickerId);
         Quote quote = buildQuoteFromIEXquote(iexQuote);
-        quoteDao_v1_jdbcCrudDao.save(quote);
+        quoteDao_v1_jdbcCrudDao.saveQuote(quote);
     }
 
     /**
@@ -62,7 +62,7 @@ public class QuoteService {
      */
     public void initQuotes(List<String> listTickers) throws IOException {
         List<IexQuote> iexQuoteslist = marketDataDao_v1_springboot.findIexQuoteByTickerList(listTickers);
-        iexQuoteslist.stream().map(QuoteService::buildQuoteFromIEXquote).map(quoteDao_v1_jdbcCrudDao::save);
+        iexQuoteslist.stream().map(QuoteService::buildQuoteFromIEXquote).map(quoteDao_v1_jdbcCrudDao::saveQuote);
     }
 
     /**

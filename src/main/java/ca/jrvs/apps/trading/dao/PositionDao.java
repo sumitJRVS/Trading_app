@@ -93,11 +93,11 @@ public class PositionDao extends JdbcCrudDao<Position, Integer> {
         return positionInList;
     }
 
-    public List<Position> getPosition(Integer id, String ticker) {
-        String query = "SELECT * from " + TABLE_NAME + " WHERE " + ID_NAME + "=?" + " and ticker=?";
-        List<Position> positionInList = jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Position.class), id, ticker);
+    public Long getPosition(Integer id, String ticker) {
+        String query = "SELECT position from " + TABLE_NAME + " WHERE " + ID_NAME + "=?" + " and ticker=?";
+        Long  pos = jdbcTemplate.queryForObject(query, long.class, id, ticker);
         System.out.println(query);
-        System.out.println(positionInList);
-        return positionInList;
+        System.out.println(pos);
+        return pos;
     }
 }

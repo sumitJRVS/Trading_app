@@ -1,11 +1,14 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
+import com.sun.org.apache.xpath.internal.operations.Quo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -52,6 +55,18 @@ public class QuoteDao_v1_jdbcCrudDao extends JdbcCrudDao<Quote, String> {
     @Override
     public SimpleJdbcInsert getSimpleJdbcInsert() {
         return simpleJdbcInsert;
+    }
+
+
+    public Quote saveQuote(Quote entity) {
+
+        try {
+            SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(entity);
+            getSimpleJdbcInsert().execute(parameterSource);
+            return entity;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Shit something wrong!");
+        }
     }
 
     /**

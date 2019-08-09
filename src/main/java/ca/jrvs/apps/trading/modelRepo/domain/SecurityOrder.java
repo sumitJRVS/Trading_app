@@ -25,11 +25,11 @@ public class SecurityOrder implements Entity<Integer> {
     @JsonProperty("notes")
     private String notes;
     @JsonProperty("price")
-    private Integer price;
+    private Double price;
     @JsonProperty("size")
-    private Integer size;
+    private Double size;
     @JsonProperty("status")
-    private String status;
+    private orderStatus status;
     @JsonProperty("ticker")
     private String ticker;
 
@@ -64,32 +64,32 @@ public class SecurityOrder implements Entity<Integer> {
     }
 
     @JsonProperty("price")
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
     @JsonProperty("price")
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
     @JsonProperty("size")
-    public Integer getSize() {
+    public Double getSize() {
         return size;
     }
 
     @JsonProperty("size")
-    public void setSize(Integer size) {
+    public void setSize(Double size) {
         this.size = size;
     }
 
     @JsonProperty("status")
-    public String getStatus() {
+    public orderStatus getStatus() {
         return status;
     }
 
     @JsonProperty("status")
-    public void setStatus(String status) {
+    public void setStatus(orderStatus status) {
         this.status = status;
     }
 
@@ -105,7 +105,9 @@ public class SecurityOrder implements Entity<Integer> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("accountId", accountId).append("id", id).append("notes", notes).append("price", price).append("size", size).append("status", status).append("ticker", ticker).toString();
+        return new ToStringBuilder(this)
+                .append("accountId", accountId)
+                .append("id", id).append("notes", notes).append("price", price).append("size", size).append("status", status).append("ticker", ticker).toString();
     }
 
     @Override
@@ -117,4 +119,10 @@ public class SecurityOrder implements Entity<Integer> {
     public void setID(Integer intID) {
         this.id = intID;
     }
+
+
+    public enum orderStatus {
+        FILLED, CANCELLED, PENDING
+    }
+
 }

@@ -1,9 +1,10 @@
-/*
+
 package ca.jrvs.apps.trading.controller;
 
 import ca.jrvs.apps.trading.modelRepo.domain.SecurityOrder;
 
 
+import ca.jrvs.apps.trading.modelRepo.dto.MarketOrderDto;
 import ca.jrvs.apps.trading.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,12 @@ public class OrderController {
     @PostMapping(path="/marketOrder")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public SecurityOrder submitMarketOrder(MarketOrderDTO order){
+    public SecurityOrder submitMarketOrder(MarketOrderDto order){
         try{
             return orderService.executeMarketOrder(order);
         }catch (Exception e){
-            throw ResponseExceptionUtil.getResponseStatusException(e);
+            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 }
-
-*/

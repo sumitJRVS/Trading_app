@@ -13,9 +13,9 @@ import javax.sql.DataSource;
 @Repository
 public class AccountDao extends JdbcCrudDao<Account, Integer> {
 
-    private static final String TABLE_NAME = "trader";
+    private static final String TABLE_NAME = "account";
     private static final String ID_NAME = "id";
-    private Logger logger = LoggerFactory.getLogger(ca.jrvs.apps.trading.dao.TraderDao.class);
+    private Logger logger = LoggerFactory.getLogger(ca.jrvs.apps.trading.dao.AccountDao.class);
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert simpleJdbcInsert;
 

@@ -55,4 +55,7 @@ public class SecurityOrderDao extends JdbcCrudDao<SecurityOrder, Integer> {
         Integer update = jdbcTemplate.update(query, securityOrder.getStatus(), securityOrder.getAccountId(), securityOrder.getTicker());
     }
 
+
+
+
 }

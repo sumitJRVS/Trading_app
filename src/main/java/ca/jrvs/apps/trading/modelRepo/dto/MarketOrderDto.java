@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.util.zip.DeflaterOutputStream;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "accountId",
@@ -16,7 +18,7 @@ public class MarketOrderDto {
     @JsonProperty("accountId")
     private Integer accountId;
     @JsonProperty("size")
-    private Integer size;
+    private Double size;
     @JsonProperty("ticker")
     private String ticker;
 
@@ -31,12 +33,12 @@ public class MarketOrderDto {
     }
 
     @JsonProperty("size")
-    public Integer getSize() {
+    public Double getSize() {
         return size;
     }
 
     @JsonProperty("size")
-    public void setSize(Integer size) {
+    public void setSize(Double size) {
         this.size = size;
     }
 
