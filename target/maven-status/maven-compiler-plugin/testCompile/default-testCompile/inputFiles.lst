@@ -1,0 +1,3 @@
+/home/centos/dev/jrvs/bootcamp/trading_app/src/test/java/ca/jrvs/apps/trading/services/QuoteServiceTest.java
+/home/centos/dev/jrvs/bootcamp/trading_app/src/test/java/ca/jrvs/apps/trading/AppConfigTest.java
+/home/centos/dev/jrvs/bootcamp/trading_app/src/test/java/ca/jrvs/apps/trading/dao/MarketDataDaoTest.java
