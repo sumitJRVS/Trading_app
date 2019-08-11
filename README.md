@@ -9,7 +9,7 @@
     - To consume Trading REST API we created, use Postman or Swagger v2 webpage(port 80, can be accessible by Http request-webpage-browser/cell)
     -  Ultimately Frontend developers will be able to consume these API via UI efficiently. API specifications using `http://localhost:8080/v2/api-docs`
 
-
+![http://localhost:8080/swagger-ui.html] (https://raw.githubusercontent.com/sumitJRVS/Trading_app/master/diagram/swagger.jpg)
     
 ## Quick Start
 - Prequiresites: Java, Docker, CentOS 7,  PSQL 
