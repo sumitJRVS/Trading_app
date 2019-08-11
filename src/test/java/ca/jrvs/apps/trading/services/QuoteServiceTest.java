@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.services;
 
-import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
+import ca.jrvs.apps.trading.dao.MarketDataDAO_v1_springboot;
 import ca.jrvs.apps.trading.dao.QuoteDao_v1_jdbcCrudDao;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
@@ -19,7 +19,7 @@ public class QuoteServiceTest {
 
     @Autowired
     private QuoteService quoteService;
-    private MarketDataDao_v1_springboot marketDataDao;
+    private MarketDataDAO_v1_springboot marketDataDao;
     private QuoteDao_v1_jdbcCrudDao quoteDao_v1_jdbcCrudDao;
 
     @Test

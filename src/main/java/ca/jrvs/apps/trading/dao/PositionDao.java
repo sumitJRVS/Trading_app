@@ -45,7 +45,7 @@ public class PositionDao extends JdbcCrudDao<Position, Integer> {
     }
 
     @Override
-    Class getEntityClass() {
+    public Class getEntityClass() {
         return Position.class;
     }
 
@@ -95,7 +95,7 @@ public class PositionDao extends JdbcCrudDao<Position, Integer> {
 
     public Long getPosition(Integer id, String ticker) {
         String query = "SELECT position from " + TABLE_NAME + " WHERE " + ID_NAME + "=?" + " and ticker=?";
-        Long  pos = jdbcTemplate.queryForObject(query, long.class, id, ticker);
+        Long pos = jdbcTemplate.queryForObject(query, long.class, id, ticker);
         System.out.println(query);
         System.out.println(pos);
         return pos;

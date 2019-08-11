@@ -16,6 +16,6 @@ public class AppController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String getHealth() {
-        return "I am alive because I am 200! okay?";
+        return "I am 200, totally alive ! :-) ";
     }
 }

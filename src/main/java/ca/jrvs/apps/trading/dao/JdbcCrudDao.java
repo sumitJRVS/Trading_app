@@ -22,7 +22,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
 
     abstract public String getIdName();
 
-    abstract Class getEntityClass();
+    abstract public Class getEntityClass();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -30,7 +30,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
 
         try {
             SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(entity);
-            Number newId= getSimpleJdbcInsert().executeAndReturnKey(parameterSource);
+            Number newId = getSimpleJdbcInsert().executeAndReturnKey(parameterSource);
 
             //entity.setID(newId.intValue());
 
@@ -82,7 +82,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
         String selectSql = "SELECT count(*) FROM " + getTableName() + " WHERE " + idName + " =?";
         logger.info(selectSql);
         Integer count = getJdbcTemplate().queryForObject(selectSql,
-                        Integer.class, id);
+                Integer.class, id);
         return count != 0;
     }
 

@@ -16,6 +16,7 @@ public interface CrudRepo<E, ID> {
      */
     E save(E entity);
 
+
     /**
      * Find aan entity by its ID.
      *
@@ -24,8 +25,8 @@ public interface CrudRepo<E, ID> {
      * Throws ResourceNotFound Exception (if no entity found) and SQL Exception (if SQL statement execution fails).
      */
     E findById(ID id);
-
     E findById(String str, ID id, boolean truefalse, Class classname);
+
 
     /**
      * @param id must not be null.
@@ -33,8 +34,8 @@ public interface CrudRepo<E, ID> {
      * Throws ReseurceNotFound Exception (if no entity found) and SQL Exception (if SQL statement execution fails).
      */
     boolean existsById(ID id);
-
     boolean existsById(String str, ID id);
+
 
     /**
      * @param id must not be null.

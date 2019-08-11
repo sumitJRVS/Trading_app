@@ -9,10 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 
 
 @Repository
@@ -51,23 +47,24 @@ public class TraderDao extends JdbcCrudDao<Trader, Integer> {
     }
 
     @Override
-    Class getEntityClass() {
+    public Class getEntityClass() {
         return TraderDao.class;
     }
-/*
 
-    //Method that takes ID + Amount and returns the updated Account
-    public Trader createTrader(String first_name, String last_name, String dob, String country, String email) {
-        Trader trader = new Trader();
-        trader.setFirstName(first_name);
-        trader.setLastName(last_name);
-        trader.setDob(dob);
-        trader.setCountry(country);
-        trader.setEmail(email);
-        return trader;
-    }
+    /*
 
-*/
+        //Method that takes ID + Amount and returns the updated Account
+        public Trader createTrader(String first_name, String last_name, String dob, String country, String email) {
+            Trader trader = new Trader();
+            trader.setFirstName(first_name);
+            trader.setLastName(last_name);
+            trader.setDob(dob);
+            trader.setCountry(country);
+            trader.setEmail(email);
+            return trader;
+        }
+
+    */
     @Override
     public Trader save(Trader entity) {
         return super.save(entity);

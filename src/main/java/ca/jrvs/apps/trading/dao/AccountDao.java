@@ -47,7 +47,7 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
     }
 
     @Override
-    Class getEntityClass() {
+    public Class getEntityClass() {
         return ca.jrvs.apps.trading.dao.TraderDao.class;
     }
 

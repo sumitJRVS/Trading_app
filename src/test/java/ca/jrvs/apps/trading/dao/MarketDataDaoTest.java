@@ -13,7 +13,7 @@ public class MarketDataDaoTest {
     public void findIexQuoteByTicker() {
 
         HttpClientConnectionManager newObjCMG = new PoolingHttpClientConnectionManager();
-        MarketDataDao_v1_springboot objectMktDAO = new MarketDataDao_v1_springboot(newObjCMG);
+        MarketDataDAO_v1_springboot objectMktDAO = new MarketDataDAO_v1_springboot(newObjCMG);
 
 
         try {

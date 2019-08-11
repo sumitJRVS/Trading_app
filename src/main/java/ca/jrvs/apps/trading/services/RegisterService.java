@@ -41,7 +41,7 @@ public class RegisterService {
      * @return traderAccountView
      */
     public TraderAccountView createTraderAndAccount(Trader traderinput) {
-       // Trader trd = new Trader();
+        // Trader trd = new Trader();
         //trd =
 
         traderDao.save(traderinput);

@@ -1,7 +1,6 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
-import com.sun.org.apache.xpath.internal.operations.Quo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ public class QuoteDao_v1_jdbcCrudDao extends JdbcCrudDao<Quote, String> {
     }
 
     @Override
-    Class getEntityClass() {
+    public Class getEntityClass() {
         return Quote.class;
     }
 
@@ -65,7 +64,7 @@ public class QuoteDao_v1_jdbcCrudDao extends JdbcCrudDao<Quote, String> {
             getSimpleJdbcInsert().execute(parameterSource);
             return entity;
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Shit something wrong!");
+            throw new IllegalArgumentException("Shit something wrong! There is illegal argument");
         }
     }
 
@@ -83,8 +82,9 @@ public class QuoteDao_v1_jdbcCrudDao extends JdbcCrudDao<Quote, String> {
     /**
      * This function will be used for - QuoteDaoServices
      */
-    public List<String> findAllTickerList(List<Quote> quote) {
+    public List<String> findTickerList(List<Quote> quote) {
         List<String> listing = quote.stream().map(Quote::getTicker).collect(Collectors.toList());
         return listing;
     }
 }
+

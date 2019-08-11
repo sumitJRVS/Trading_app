@@ -45,7 +45,7 @@ public class SecurityOrderDao extends JdbcCrudDao<SecurityOrder, Integer> {
     }
 
     @Override
-    Class getEntityClass() {
+    public Class getEntityClass() {
         return null;
     }
 
@@ -54,8 +54,6 @@ public class SecurityOrderDao extends JdbcCrudDao<SecurityOrder, Integer> {
         String query = "UPDATE" + " " + TABLE_NAME + " " + "SET status=? WHERE account_id=? AND ticker=?";
         Integer update = jdbcTemplate.update(query, securityOrder.getStatus(), securityOrder.getAccountId(), securityOrder.getTicker());
     }
-
-
 
 
 }

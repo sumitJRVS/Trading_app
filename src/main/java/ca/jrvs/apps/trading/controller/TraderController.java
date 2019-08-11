@@ -29,7 +29,7 @@ public class TraderController {
     @PostMapping(path = "/")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public TraderAccountView putTrader(@RequestBody Trader trader) {
+    public TraderAccountView createTrader(@RequestBody Trader trader) {
         try {
             return registerService.createTraderAndAccount(trader);
         } catch (Exception e) {

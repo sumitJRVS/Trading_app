@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.services;
 
-import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
+import ca.jrvs.apps.trading.dao.MarketDataDAO_v1_springboot;
 import ca.jrvs.apps.trading.dao.QuoteDao_v1_jdbcCrudDao;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
@@ -17,11 +17,11 @@ public class QuoteService {
 
     Logger logger = LoggerFactory.getLogger(QuoteService.class);
     private QuoteDao_v1_jdbcCrudDao quoteDao_v1_jdbcCrudDao;
-    private MarketDataDao_v1_springboot marketDataDao_v1_springboot;
+    private MarketDataDAO_v1_springboot marketDataDao_v1_springboot;
 
     //Constructor
     @Autowired
-    private QuoteService(QuoteDao_v1_jdbcCrudDao quoteDaoV1jdbcCrudDao, MarketDataDao_v1_springboot marketDataDaotDAO) {
+    private QuoteService(QuoteDao_v1_jdbcCrudDao quoteDaoV1jdbcCrudDao, MarketDataDAO_v1_springboot marketDataDaotDAO) {
         this.quoteDao_v1_jdbcCrudDao = quoteDaoV1jdbcCrudDao;
         this.marketDataDao_v1_springboot = marketDataDaotDAO;
     }
@@ -70,8 +70,8 @@ public class QuoteService {
      * Steps: search/get/collect all db's quote's ticker names
      * For each ticker convert iexquote entity-->quote entity-->db (complete 1 cycle)
      */
-    public void updateMarketDataOFjdbc() throws IOException {
-        initQuotes(quoteDao_v1_jdbcCrudDao.findAllTickerList(quoteDao_v1_jdbcCrudDao.findAllQuotesList()));
+    public void updateMarketDataOfJdbc() throws IOException {
+        initQuotes(quoteDao_v1_jdbcCrudDao.findTickerList(quoteDao_v1_jdbcCrudDao.findAllQuotesList()));
     }
 
 }

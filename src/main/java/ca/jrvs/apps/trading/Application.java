@@ -1,7 +1,6 @@
 package ca.jrvs.apps.trading;
 
 
-import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
 import ca.jrvs.apps.trading.services.QuoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,19 +15,16 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 import javax.sql.DataSource;
 import java.util.Arrays;
-import java.util.List;
 
 //below lines were ref to Edward in 1.3.1.4
 @SpringBootApplication(exclude = {JdbcTemplateAutoConfiguration.class, DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class Application implements CommandLineRunner {
 
-    //private MarketDataDao_v1_springboot marketDataDao;
-
     @Autowired
     private DataSource dataSource;
     private Logger logger = LoggerFactory.getLogger((Application.class));
 
-    @Value("aal,amd")
+    @Value("evh")
     private String[] dailyList;
 
     @Autowired
@@ -44,7 +40,7 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         quoteService.initQuotes(Arrays.asList(dailyList));
-        quoteService.updateMarketDataOFjdbc();
+        quoteService.updateMarketDataOfJdbc();
     }
 }
 

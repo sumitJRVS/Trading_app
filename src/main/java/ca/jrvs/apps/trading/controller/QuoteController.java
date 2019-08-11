@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.controller;
 
-import ca.jrvs.apps.trading.dao.MarketDataDao_v1_springboot;
+import ca.jrvs.apps.trading.dao.MarketDataDAO_v1_springboot;
 import ca.jrvs.apps.trading.dao.QuoteDao_v1_jdbcCrudDao;
 import ca.jrvs.apps.trading.modelRepo.dto.IexQuote;
 import ca.jrvs.apps.trading.modelRepo.dto.Quote;
@@ -21,12 +21,12 @@ public class QuoteController {
 
     private QuoteService quoteService;
     private QuoteDao_v1_jdbcCrudDao quoteDao;
-    private MarketDataDao_v1_springboot marketDataDao;
+    private MarketDataDAO_v1_springboot marketDataDao;
 
     @Autowired
     public QuoteController(QuoteService quoteService,
                            QuoteDao_v1_jdbcCrudDao quoteDaov1jdbcCrudDao,
-                           MarketDataDao_v1_springboot marketDataDaoV1Springboot) {
+                           MarketDataDAO_v1_springboot marketDataDaoV1Springboot) {
         this.quoteService = quoteService;
         this.quoteDao = quoteDaov1jdbcCrudDao;
         this.marketDataDao = marketDataDaoV1Springboot;
@@ -37,23 +37,23 @@ public class QuoteController {
     @ResponseStatus(HttpStatus.OK)
     public void updateMarketData() {
         try {
-            quoteService.updateMarketDataOFjdbc();
+            quoteService.updateMarketDataOfJdbc();
         } catch (IOException err) {
             err.printStackTrace();
         }
     }
 
-/*
+    /*
     @PutMapping(path = "/")
     @ResponseStatus(HttpStatus.OK)
     public void putQuote(@RequestBody Quote quote) {
         try {
-            quoteDao.update(Collections.singletonList(quote));
+            quoteDao.(Collections.singletonList(quote));
         } catch (Exception e) {
-         eption(e);
+         e.printStackTrace();
         }
     }
-*/
+    */
 
     @PostMapping(path = "/tickerId/{tickerId}")
     @ResponseStatus(HttpStatus.CREATED)
