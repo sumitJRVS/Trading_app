@@ -5,14 +5,10 @@
 
    - This trading REST API SpingBoot Java app is built using micro-services. The SpingBoot handles internal dependencies for the app here. The app is used to find store stock prices from live/offline market and do trade within account and also buy buy stocks.
     - The user can save its stock data with the account and obtain later market quote in future for its portfolio. The account has some basic features to deposit-withdraw funds, create-delete account functions.
-    - The data is obtained by IEX plateform and user need to create an account on the webpage[https://iextrading.com/] and obtain the key to paste it in the environment variable within the app.
+    - The data is obtained by IEX plateform and user need to create an account on the [webpage](https://iextrading.com/) and obtain the key to paste it in the environment variable within the app.
     - To consume Trading REST API we created, use Postman or Swagger v2 webpage(port 80, can be accessible by Http request-webpage-browser/cell)
     -  Ultimately Frontend developers will be able to consume these API via UI efficiently. API specifications using `http://localhost:8080/v2/api-docs`
-    - Swagger UI will look like:
 
-
-
->>>>> FIGURE...#1
 
     
 ## Quick Start
@@ -29,7 +25,8 @@
 ## Architecture Diagram:
 - The application has several layers within app and it implements Apache Tomcat servlet that handles server management request for us. For the database storage in the back-end PostgreSQL is used via port 5432.
 
->>>>>>> FIGURE#2
+FIGURE#2
+![trading](https://raw.githubusercontent.com/sumitJRVS/Trading_app/master/diagram/trading.jpg)
 
 
 ### [Layers]
@@ -61,7 +58,6 @@
 -   POST `/quote/ticker/{ticker}` - Adds a new ticker to the Quote database
 -   PUT  `/quote/iexMarketData'` - Updates all quotes with live market data from IEX
 
-> >>>PUT  `/quote/` - Allows user to manually update an individual quotes's Quote data in database
 
 ## Trader Controller
  - **High-level summary**: this layer implements trader account generation, deletion, update fund by deposit or withdraw functions.
@@ -76,15 +72,24 @@
 ## Order Controller
 
  - **High-level summary**: this layer implements the function for trader to performs buy/sell stocks (upon conditions verification).
-POST`/order/marketOrder` - Buy or sell stock
+ 
+ **End point**
+- POST`/order/marketOrder` - Buy or sell stock
  
 ## App controller
 - **High-level summary**: this layer has no practical functionality except testing app's health (eg. port, url, local environment working correctly or not?)
--  GET `/health` to verify the SpringBoot app's health, make sure is up and running?
 
-> >>>>## Optional(Dashboard controller)
-> >>>>Uploading before :10-Aug-2019 10:00 AM
+ **End point**
+- GET `/health` to verify the SpringBoot app's health, make sure is up and running?
 
+## Dashboard controller
+- **High-level summary**: this layer has 2 functions:
+	1. getPortfolio returns the PortfolioView.
+	2. getProfile method returns the trader's TraderAccountView.
+
+ **End point**
+- GET `/portfolio/traderId/{traderId}`
+- GET `/profile/traderId/{traderId}`
 
 
 ## Startup steps (how to):
@@ -181,7 +186,5 @@ Loginto swagger browser using
 6. Bugfix in `TraderDAO.java` and `Trader.java` pojo solved for the date(D.O.B.) to string casting.
 
 -------------------
-
-
 
 
