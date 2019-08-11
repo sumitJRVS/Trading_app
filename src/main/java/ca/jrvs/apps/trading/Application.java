@@ -44,7 +44,9 @@ public class Application implements CommandLineRunner {
     }
 }
 
-// http://localhost:8080/swagger-ui.html
+/* http://localhost:8080/swagger-ui.html
+    sudo -s
+    systemctl start docker
+    docker run --rm --name jrvs-psql -e PSQL_USER=postgres  -e POSTGRES_PASSWORD=password -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
 
-
-
+*/
