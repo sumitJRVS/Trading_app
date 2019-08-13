@@ -25,7 +25,6 @@
 ## Architecture Diagram:
 - The application has several layers within app and it implements Apache Tomcat servlet that handles server management request for us. For the database storage in the back-end PostgreSQL is used via port 5432.
 
-FIGURE#2
 ![trading](https://raw.githubusercontent.com/sumitJRVS/Trading_app/master/diagram/trading.jpg)
 
 
