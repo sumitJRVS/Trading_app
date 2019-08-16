@@ -52,12 +52,15 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
     }
 
     //Method that takes ID + amount and returns the updated Account
+
     public Account updateAmountByID(Integer id, Double amount) {
+      /*
         String query = "UPDATE" + " " + TABLE_NAME + " " + "SET amount=? WHERE id=?";
         Integer update = jdbcTemplate.update(query, amount, id);
         return findById(id);
-
-
+       
+        */
+        return null;
     }
 
 

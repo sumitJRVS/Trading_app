@@ -32,7 +32,7 @@ public abstract class JdbcCrudDao<E extends Entity, ID> implements CrudRepo<E, I
             SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(entity);
             Number newId = getSimpleJdbcInsert().executeAndReturnKey(parameterSource);
 
-            //entity.setID(newId.intValue());
+            entity.setID(newId.intValue());
 
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Shit something wrong!");
